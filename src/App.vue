@@ -10,7 +10,11 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 @Component({
   components: {},
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  errorCaptured(error: Error) {
+    console.log(error)
+  }
+}
 </script>
 
 <style lang="scss">
