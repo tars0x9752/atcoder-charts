@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Module, VuexModule, Mutation, Action, getModule } from 'vuex-module-decorators'
 import store from '@/vuex/store'
+import { Submission } from '@/types/submission'
 
 const httpClient = axios.create({
   baseURL: 'https://kenkoooo.com/atcoder/atcoder-api',
@@ -32,9 +33,7 @@ class SubmissionModule extends VuexModule {
         },
       })
 
-      const submissions = res.data
-
-      console.log(submissions)
+      const submissions: Submission[] = res.data
     } catch (err) {
       console.log(err)
     }
