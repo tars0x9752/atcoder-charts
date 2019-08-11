@@ -18,10 +18,23 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Pacifico|Righteous&display=swap');
+
+:root {
+  --black: #202c39;
+  --white: #eaeaea;
+  --deep-pink: #da4167;
+  --royal-blue: #4f7cac;
+  --teal: #00a9a5;
+  --gray: #4f5d75;
+}
+
 .app {
   height: 100vh;
   color: #202c39;
-  background: #fff;
+  background: var(--white);
   overflow: hidden;
+  font-family: 'Avenir', 'Helvetica Neue', 'Helvetica', 'Arial', 'Hiragino Sans',
+    'ヒラギノ角ゴシック', 'メイリオ', Meiryo, sans-serif;
 }
 </style>
