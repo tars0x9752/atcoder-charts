@@ -15,7 +15,7 @@ import UserNameInput from '@/components/organisms/UserNameInput.vue'
   },
 })
 export default class MainPage extends Vue {
-  title = 'AtCoder IroIro Charts'
+  title = 'AtCoder Charts'
 
   mounted() {
     submissionModule.fetchSubmissions('HaveFunWP')
@@ -25,7 +25,7 @@ export default class MainPage extends Vue {
 
 <style scoped lang="scss">
 .title {
-  padding: 30px;
+  padding: 25px;
   margin-bottom: 30px;
   background: var(--black);
   color: #fff;

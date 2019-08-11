@@ -111,8 +111,8 @@ export default class MainPage extends Vue {
     45deg,
     var(--teal),
     var(--teal) 5px,
-    transparent 5px,
-    transparent 8px
+    var(--white) 5px,
+    var(--white) 8px
   );
 }
 
