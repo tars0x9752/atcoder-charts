@@ -1,14 +1,22 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import ChartView from '@/components/pages/ChartView.vue'
+import MainPage from '@/components/pages/MainPage.vue'
+
+const Path = {
+  MainPage: '/',
+}
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      component: ChartView,
+      path: Path.MainPage,
+      component: MainPage,
+    },
+    {
+      path: '*',
+      component: MainPage,
     },
   ],
 })
