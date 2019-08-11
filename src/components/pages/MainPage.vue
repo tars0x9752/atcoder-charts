@@ -2,16 +2,19 @@
 .main-page
   h1.title {{ title }}
   user-name-input
+  chart-pane
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { submissionModule } from '@/vuex/modules/submission'
 import UserNameInput from '@/components/organisms/UserNameInput.vue'
+import ChartPane from '@/components/organisms/ChartPane.vue'
 
 @Component({
   components: {
     UserNameInput,
+    ChartPane,
   },
 })
 export default class MainPage extends Vue {
