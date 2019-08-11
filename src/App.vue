@@ -18,7 +18,7 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css?family=Pacifico|Righteous&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Righteous|Roboto&display=swap');
 
 :root {
   --black: #202c39;
@@ -26,6 +26,7 @@ export default class App extends Vue {
   --deep-pink: #da4167;
   --royal-blue: #4f7cac;
   --teal: #00a9a5;
+  --deep-teal: #008481;
   --gray: #4f5d75;
 }
 
@@ -34,7 +35,7 @@ export default class App extends Vue {
   color: #202c39;
   background: var(--white);
   overflow: hidden;
-  font-family: 'Avenir', 'Helvetica Neue', 'Helvetica', 'Arial', 'Hiragino Sans',
-    'ヒラギノ角ゴシック', 'メイリオ', Meiryo, sans-serif;
+  font-family: 'Roboto', 'Arial', 'Hiragino Sans', 'ヒラギノ角ゴシック', 'メイリオ', Meiryo,
+    sans-serif;
 }
 </style>

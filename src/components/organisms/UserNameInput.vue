@@ -19,6 +19,9 @@
         )
       .base-border
         .accent-border
+  .label-container
+    transition(name="label")
+      p.label(v-if="isFocused") {{ placeholder }}
 </template>
 
 <script lang="ts">
@@ -27,16 +30,16 @@ import { submissionModule } from '@/vuex/modules/submission'
 
 const MAX_WIDTH = '100%'
 const MIN_WIDTH = '0'
-const MAX_OPACITY = '1'
-const MIN_OPACITY = '0.5'
+const MAX_OPACITY = '0.7'
+const MIN_OPACITY = '0'
 
 @Component
 export default class MainPage extends Vue {
   maxlength = 30
 
-  placeholder = 'User Name'
+  placeholder = 'Username'
 
-  opacity = MIN_OPACITY
+  opacity = MAX_OPACITY
 
   borderWidth = MIN_WIDTH
 
@@ -70,12 +73,12 @@ export default class MainPage extends Vue {
 
   onFocus() {
     this.isFocused = true
-    this.opacity = MAX_OPACITY
+    this.opacity = MIN_OPACITY
   }
 
   onBlur() {
     this.isFocused = false
-    this.opacity = MIN_OPACITY
+    this.opacity = MAX_OPACITY
     this.borderWidth = MIN_WIDTH
   }
 }
@@ -141,6 +144,11 @@ export default class MainPage extends Vue {
   outline: none;
 }
 
+.input::placeholder {
+  opacity: var(--opacity);
+  transition: all 0.35s ease;
+}
+
 .base-border {
   display: flex;
   justify-content: center;
@@ -155,5 +163,25 @@ export default class MainPage extends Vue {
   background: var(--teal);
   opacity: 1;
   transition: width 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.label {
+  margin: 10px 30px;
+  padding: 5px;
+  width: 100px;
+  color: #fff;
+  background: var(--deep-teal);
+  text-align: center;
+  font-size: 16px;
+}
+
+.label-enter-active,
+.label-leave-active {
+  transition: all 0.8s ease;
+}
+.label-enter,
+.label-leave-to {
+  opacity: 0;
+  margin-left: 50px;
 }
 </style>
