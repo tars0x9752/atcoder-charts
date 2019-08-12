@@ -8,6 +8,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { submissionModule } from '@/vuex/modules/submission'
+import { contestHistoryModule } from '@/vuex/modules/contest-history'
 import UserNameInput from '@/components/organisms/UserNameInput.vue'
 import ChartPane from '@/components/organisms/ChartPane.vue'
 
@@ -22,6 +23,7 @@ export default class MainPage extends Vue {
 
   mounted() {
     submissionModule.fetchSubmissions('HaveFunWP')
+    contestHistoryModule.fetchContestHistory('HaveFunWP')
   }
 }
 </script>
