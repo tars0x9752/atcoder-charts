@@ -27,6 +27,8 @@ export default class App extends Vue {
   --royal-blue: #4f7cac;
   --teal: #00a9a5;
   --deep-teal: #008481;
+  --clear-teal: #00848238;
+  --clear-black: #202c392c;
   --gray: #4f5d75;
 }
 

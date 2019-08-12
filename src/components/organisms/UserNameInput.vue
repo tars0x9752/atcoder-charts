@@ -34,7 +34,7 @@ const MAX_OPACITY = '0.7'
 const MIN_OPACITY = '0'
 
 @Component
-export default class MainPage extends Vue {
+export default class UserNameInput extends Vue {
   maxlength = 30
 
   placeholder = 'Username'
@@ -173,6 +173,11 @@ export default class MainPage extends Vue {
   background: var(--deep-teal);
   text-align: center;
   font-size: 16px;
+}
+
+.label-container {
+  height: 50px;
+  overflow: hidden;
 }
 
 .label-enter-active,
