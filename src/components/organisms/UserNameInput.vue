@@ -16,6 +16,7 @@
         @mouseleave="onMouseLeave"
         @focus="onFocus"
         @blur="onBlur"
+        @keydown.prevent.enter="onEnter"
         )
       .base-border
         .accent-border
@@ -25,8 +26,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-import { submissionModule } from '@/vuex/modules/submission'
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
 
 const MAX_WIDTH = '100%'
 const MIN_WIDTH = '0'
@@ -80,6 +80,11 @@ export default class UserNameInput extends Vue {
     this.isFocused = false
     this.opacity = MAX_OPACITY
     this.borderWidth = MIN_WIDTH
+  }
+
+  @Emit('input')
+  onEnter() {
+    return this.inputText
   }
 }
 </script>
