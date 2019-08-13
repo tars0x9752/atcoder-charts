@@ -4,11 +4,7 @@ import store from '@/vuex/store'
 import { RawContestHistory, ContestHistory } from '@/types/contest-history'
 
 const httpClient = axios.create({
-  baseURL: 'https://atcoder.jp',
-  headers: {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json',
-  },
+  baseURL: 'https://havefn-atcoder-api.netlify.com/.netlify/functions/',
 })
 
 const formatRawData = (raw: RawContestHistory) => {
@@ -58,13 +54,9 @@ class ContestHistoryModule extends VuexModule {
       throw new Error('username required')
     }
 
-    const res = await httpClient.get(`/users/${username}/history/json`, {})
+    const res = await httpClient.get(`/history?user=${username}`)
 
     const rawContestHistory: RawContestHistory[] = res.data
-
-    if (rawContestHistory.length <= 0) {
-      console.log('no data')
-    }
 
     const contestHistory: ContestHistory[] = rawContestHistory.map(formatRawData)
 

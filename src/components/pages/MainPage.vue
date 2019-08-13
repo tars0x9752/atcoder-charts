@@ -1,7 +1,7 @@
 <template lang="pug">
 .main-page
   h1.title {{ title }}
-  user-name-input
+  user-name-input(@input="onTextInput")
   chart-pane
 </template>
 
@@ -21,9 +21,14 @@ import ChartPane from '@/components/organisms/ChartPane.vue'
 export default class MainPage extends Vue {
   title = 'AtCoder Charts'
 
-  mounted() {
-    submissionModule.fetchSubmissions('HaveFunWP')
-    contestHistoryModule.fetchContestHistory('HaveFunWP')
+  async onTextInput(text: string) {
+    await submissionModule.fetchSubmissions(text)
+
+    await contestHistoryModule.fetchContestHistory(text)
+
+    console.log(submissionModule.getSubmissions)
+
+    console.log(contestHistoryModule.getContestHistory)
   }
 }
 </script>

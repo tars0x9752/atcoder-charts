@@ -34,10 +34,6 @@ class SubmissionModule extends VuexModule {
 
     const submissions: Submission[] = res.data
 
-    if (submissions.length <= 0) {
-      console.log('no data')
-    }
-
     this.setSubmissions(submissions)
   }
 }
