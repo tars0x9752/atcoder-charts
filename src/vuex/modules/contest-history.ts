@@ -1,13 +1,18 @@
 import axios from 'axios'
 import { Module, VuexModule, Mutation, Action, getModule } from 'vuex-module-decorators'
 import store from '@/vuex/store'
-import { RawContestHistory, ContestHistory } from '@/types/contest-history'
+import {
+  RawContestResult,
+  ContestResult,
+  ContestHistory,
+  RawContestHistory,
+} from '@/types/contest-history'
 
 const httpClient = axios.create({
   baseURL: 'https://havefn-atcoder-api.netlify.com/.netlify/functions/',
 })
 
-const formatRawData = (raw: RawContestHistory) => {
+const formatRawData = (raw: RawContestResult) => {
   const {
     IsRated,
     Place,
@@ -20,7 +25,7 @@ const formatRawData = (raw: RawContestHistory) => {
     EndTime,
   } = raw
 
-  const camel: ContestHistory = {
+  const camel: ContestResult = {
     isRated: IsRated,
     place: Place,
     oldRating: OldRating,
@@ -37,14 +42,14 @@ const formatRawData = (raw: RawContestHistory) => {
 
 @Module({ dynamic: true, name: 'ContestHistoryModule', store, namespaced: true })
 class ContestHistoryModule extends VuexModule {
-  private contestHistory: ContestHistory[] | null = null
+  private contestHistory: ContestHistory | null = null
 
-  get getContestHistory(): ContestHistory[] | null {
+  get getContestHistory(): ContestHistory | null {
     return this.contestHistory
   }
 
   @Mutation
-  setContestHistory(contestHistory: ContestHistory[] | null) {
+  setContestHistory(contestHistory: ContestHistory | null) {
     this.contestHistory = contestHistory
   }
 
@@ -56,9 +61,9 @@ class ContestHistoryModule extends VuexModule {
 
     const res = await httpClient.get(`/history?user=${username}`)
 
-    const rawContestHistory: RawContestHistory[] = res.data
+    const rawContestHistory: RawContestHistory = res.data
 
-    const contestHistory: ContestHistory[] = rawContestHistory.map(formatRawData)
+    const contestHistory: ContestHistory = rawContestHistory.map(formatRawData)
 
     this.setContestHistory(contestHistory)
   }

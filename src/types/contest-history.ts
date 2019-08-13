@@ -1,4 +1,4 @@
-export interface RawContestHistory {
+export interface RawContestResult {
   IsRated: boolean
   Place: number
   OldRating: number
@@ -10,7 +10,7 @@ export interface RawContestHistory {
   EndTime: string
 }
 
-export interface ContestHistory {
+export interface ContestResult {
   isRated: boolean
   place: number
   oldRating: number
@@ -21,3 +21,7 @@ export interface ContestHistory {
   contestName: string
   endTime: string
 }
+
+export type RawContestHistory = RawContestResult[]
+
+export type ContestHistory = ContestResult[]
