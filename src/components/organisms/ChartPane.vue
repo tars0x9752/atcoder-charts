@@ -1,9 +1,13 @@
 <template lang="pug">
 .organism-chart-pane(:style="styles")
-  v-chart
+  v-chart(
+    :data="data"
+    :options="options"
+    )
 </template>
 
 <script lang="ts">
+import { ChartData, ChartOptions } from 'chart.js'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import VChart from '@/components/molecules/VChart.vue'
 
@@ -13,6 +17,12 @@ import VChart from '@/components/molecules/VChart.vue'
   },
 })
 export default class ChartPane extends Vue {
+  @Prop()
+  data?: ChartData
+
+  @Prop()
+  options?: ChartOptions
+
   get styles() {
     return {}
   }

@@ -5,60 +5,42 @@
 
 <script lang="ts">
 import { Chart, ChartData, ChartOptions } from 'chart.js'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 
 @Component
 export default class VChart extends Vue {
-  chart: any = null
+  chart: Chart | null = null
 
-  chartType = 'bar'
+  @Prop()
+  data?: ChartData
 
-  data = {
-    labels: ['2019-04', '2019-05', '2019-06', '2019-07'],
-    datasets: [
-      {
-        label: 'HaveFunWP',
-        type: 'line',
-        fill: false,
-        data: [10, 20, 40, 100],
-        backgroundColor: '#da4167',
-        borderColor: '#da4167',
-        borderWidth: 2,
-      },
-    ],
-  }
-
-  options: ChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    legend: {
-      display: true,
-      labels: {
-        fontSize: 14,
-      },
-    },
-    scales: {
-      yAxes: [
-        {
-          stacked: true,
-          ticks: {
-            beginAtZero: true,
-          },
-        },
-      ],
-      xAxes: [
-        {
-          stacked: true,
-          ticks: {
-            beginAtZero: true,
-          },
-        },
-      ],
-    },
-  }
+  @Prop()
+  options?: ChartOptions
 
   get styles() {
     return {}
+  }
+
+  @Watch('data')
+  onDataUpdate(data?: ChartData) {
+    const { chart } = this
+
+    if (!data || !chart) return
+
+    chart.data = data
+
+    chart.update()
+  }
+
+  @Watch('options')
+  onOptionsUpdate(options?: ChartOptions) {
+    const { chart } = this
+
+    if (!options || !chart) return
+
+    chart.options = options
+
+    chart.update()
   }
 
   mounted() {
@@ -68,7 +50,7 @@ export default class VChart extends Vue {
 
     if (!(canvas instanceof HTMLCanvasElement)) return
 
-    const type = 'bar'
+    const type = 'line'
 
     this.chart = new Chart(canvas, { type, data, options })
   }
