@@ -38,13 +38,8 @@ export default class ChartPane extends Vue {
   width: 1000px;
   height: 500px;
   margin: 50px auto;
-  background: var(--box-color);
+  background: var(--white);
   border-radius: 5px;
-  box-shadow: var(--box-shadow1);
   transition: all 0.5s ease;
-}
-
-.organism-chart-pane:hover {
-  box-shadow: var(--box-shadow2);
 }
 </style>

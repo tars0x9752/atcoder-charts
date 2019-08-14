@@ -143,6 +143,8 @@ export default class UserNameInput extends Vue {
   height: var(--input-height);
   line-height: var(--input-height);
   color: var(--black);
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
   background: var(--white);
   border: none;
   font-size: 25px;

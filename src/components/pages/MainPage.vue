@@ -1,6 +1,8 @@
 <template lang="pug">
 .main-page
-  h1.title {{ title }}
+  main-page-header(
+    :title="title"
+    )
   user-name-input(@input="onUsernameInput")
   chart-pane(
     :data="data"
@@ -14,6 +16,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import { submissionModule } from '@/vuex/modules/submission'
 import { contestHistoryModule } from '@/vuex/modules/contest-history'
 import UserNameInput from '@/components/organisms/UserNameInput.vue'
+import MainPageHeader from '@/components/organisms/MainPageHeader.vue'
 import ChartPane from '@/components/organisms/ChartPane.vue'
 import { ContestResult, ContestHistory } from '@/types/contest-history'
 
@@ -21,6 +24,7 @@ import { ContestResult, ContestHistory } from '@/types/contest-history'
   components: {
     UserNameInput,
     ChartPane,
+    MainPageHeader,
   },
 })
 export default class MainPage extends Vue {
@@ -85,6 +89,9 @@ export default class MainPage extends Vue {
     const options: ChartOptions = {
       responsive: true,
       maintainAspectRatio: true,
+      legend: {
+        display: false,
+      },
       tooltips: {
         displayColors: false,
         callbacks: {
@@ -116,16 +123,6 @@ export default class MainPage extends Vue {
 </script>
 
 <style scoped lang="scss">
-.title {
-  padding: 25px;
-  margin-bottom: 30px;
-  background: var(--black);
-  color: #fff;
-  font-size: 35px;
-  font-family: 'Righteous', cursive;
-  text-align: center;
-}
-
 .msg {
   text-align: center;
   font-size: 16px;
