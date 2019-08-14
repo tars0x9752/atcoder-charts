@@ -22,7 +22,7 @@ export default class MainPageHeader extends Vue {
 
   twitter = 'https://twitter.com/havveFn'
 
-  @Prop({ default: 'Hoge' })
+  @Prop({ default: 'AtCoder Charts' })
   title!: string
 }
 </script>
@@ -32,7 +32,6 @@ export default class MainPageHeader extends Vue {
   display: flex;
   width: 100vw;
   height: 80px;
-  margin-bottom: 60px;
   justify-content: center;
   background: var(--white);
   overflow: hidden;

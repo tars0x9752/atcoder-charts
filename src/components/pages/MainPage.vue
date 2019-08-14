@@ -3,8 +3,13 @@
   main-page-header(
     :title="title"
     )
-  user-name-input(@input="onUsernameInput")
+  user-name-input(
+    :margin-top="usernameInputMarginTop"
+    :input-width="usernameInputWidth"
+    @input="onUsernameInput"
+    )
   chart-pane(
+    v-if="isChartPaneVisible"
     :data="data"
     :options="options"
     )
@@ -19,6 +24,7 @@ import UserNameInput from '@/components/organisms/UserNameInput.vue'
 import MainPageHeader from '@/components/organisms/MainPageHeader.vue'
 import ChartPane from '@/components/organisms/ChartPane.vue'
 import { ContestResult, ContestHistory } from '@/types/contest-history'
+import { createChartDataAndOptions } from '@/libs/chart'
 
 @Component({
   components: {
@@ -28,23 +34,19 @@ import { ContestResult, ContestHistory } from '@/types/contest-history'
   },
 })
 export default class MainPage extends Vue {
+  isChartPaneVisible = false
+
   title = 'AtCoder Charts'
 
   username: string | null = null
 
+  usernameInputMarginTop: string = 'calc(50vh - 200px)'
+
+  usernameInputWidth: string = '900px'
+
   data: ChartData = {}
 
-  options: ChartOptions = {
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            min: 0,
-          },
-        },
-      ],
-    },
-  }
+  options: ChartOptions = {}
 
   async onUsernameInput(username: string) {
     this.username = username
@@ -55,76 +57,25 @@ export default class MainPage extends Vue {
 
     const contestHistory = contestHistoryModule.getContestHistory
 
-    this.createChartDataAndOptions(contestHistory)
-  }
+    if (contestHistory === null) return
 
-  createChartDataAndOptions(contestHistory: ContestHistory | null) {
-    const { username } = this
+    if (contestHistory.length <= 0) return
 
-    if (contestHistory === null || username === null) return
-
-    const ratedList = contestHistory.filter(contestResult => contestResult.isRated)
-
-    const ratings = ratedList.map(rated => rated.newRating)
-
-    const labels = ratedList.map((_, i) => `${_.contestName}`)
-
-    const itemCount = ratedList.length
-
-    const data: ChartData = {
-      labels,
-      datasets: [
-        {
-          label: username,
-          type: 'line',
-          data: ratings,
-          fill: false,
-          backgroundColor: '#da4167',
-          borderColor: '#da4167',
-          borderWidth: 2,
-        },
-      ],
-    }
-
-    const options: ChartOptions = {
-      responsive: true,
-      maintainAspectRatio: true,
-      legend: {
-        display: false,
-      },
-      tooltips: {
-        displayColors: false,
-        callbacks: {
-          afterLabel: tooltipItem => labels[tooltipItem.index!],
-        },
-      },
-      scales: {
-        xAxes: [
-          {
-            ticks: {
-              callback: (_, i) => `#${i + 1}`,
-            },
-          },
-        ],
-        yAxes: [
-          {
-            ticks: {
-              min: 0,
-            },
-          },
-        ],
-      },
-    }
+    const { data, options } = createChartDataAndOptions(username, contestHistory)
 
     this.data = data
+
     this.options = options
+
+    this.usernameInputMarginTop = '70px'
+
+    this.usernameInputWidth = '750px'
+
+    this.isChartPaneVisible = true
   }
 }
 </script>
 
 <style scoped lang="scss">
-.msg {
-  text-align: center;
-  font-size: 16px;
-}
+
 </style>
