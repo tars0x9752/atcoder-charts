@@ -47,6 +47,12 @@ export default class UserNameInput extends Vue {
 
   isFocused = false
 
+  @Prop({ default: '80px' })
+  marginTop!: string
+
+  @Prop({ default: '800px' })
+  inputWidth!: string
+
   focus() {
     const { input } = this.$refs
 
@@ -59,6 +65,8 @@ export default class UserNameInput extends Vue {
     return {
       '--opacity': this.opacity,
       '--border-width': this.borderWidth,
+      '--margin-top': this.marginTop,
+      '--input-width': this.inputWidth,
     }
   }
 
@@ -77,6 +85,12 @@ export default class UserNameInput extends Vue {
   }
 
   onBlur() {
+    const { inputText } = this
+
+    const matched = inputText.match(/^\S+/g)
+
+    if (matched !== null && matched.length > 0) return
+
     this.isFocused = false
     this.opacity = MAX_OPACITY
     this.borderWidth = MIN_WIDTH
@@ -93,11 +107,13 @@ export default class UserNameInput extends Vue {
 .organism-user-name-input {
   --border-width: initial;
   --opacity: initial;
+  --margin-top: initial;
+  --input-width: initial;
   --input-height: 50px;
-  --input-width: 800px;
   width: var(--input-width);
-  margin: 0 auto;
+  margin: var(--margin-top) auto 0;
   overflow: hidden;
+  transition: all 0.5s ease;
 }
 
 .flex {

@@ -37,7 +37,7 @@ export default class ChartPane extends Vue {
   --box-shadow2: 0 14px 28px var(--shadow-color), 0 10px 10px var(--shadow-color);
   width: 1000px;
   height: 500px;
-  margin: 50px auto;
+  margin: 100px auto 0;
   background: var(--white);
   border-radius: 5px;
   transition: all 0.5s ease;
