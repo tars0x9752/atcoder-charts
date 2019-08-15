@@ -11,6 +11,7 @@
     "@types/chart.js": "^2.7.56",
     "axios": "^0.19.0",
     "chart.js": "^2.8.0",
+    "chartjs-plugin-annotation": "^0.5.7",
     "core-js": "^2.6.5",
     "pug": "^2.0.4",
     "pug-loader": "^2.4.0",
