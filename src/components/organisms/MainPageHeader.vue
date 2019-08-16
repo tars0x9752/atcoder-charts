@@ -1,5 +1,5 @@
 <template lang="pug">
-.organism-main-page-header(:style="styles")
+.organism-main-page-header
   .container
     h1.title {{ title }}
     .links
