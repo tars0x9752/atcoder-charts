@@ -77,5 +77,8 @@ export default class MainPage extends Vue {
 </script>
 
 <style scoped lang="scss">
+.main-page {
+  padding-bottom: 30px;
+}
 
 </style>

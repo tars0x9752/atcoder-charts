@@ -32,11 +32,13 @@ export default class App extends Vue {
   --gray: #4f5d75;
 }
 
+body {
+  color: var(--black);
+  background: var(--white);
+}
+
 .app {
   height: 100vh;
-  color: #202c39;
-  background: var(--white);
-  overflow: hidden;
   font-family: 'Poppins', 'Arial', 'Hiragino Sans', 'ヒラギノ角ゴシック', 'メイリオ', Meiryo,
     sans-serif;
 }
