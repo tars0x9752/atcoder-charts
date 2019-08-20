@@ -30,7 +30,7 @@ export default class MainPageHeader extends Vue {
 <style scoped lang="scss">
 .organism-main-page-header {
   display: flex;
-  height: 80px;
+  height: 100px;
   justify-content: center;
   background: var(--white);
   overflow: hidden;

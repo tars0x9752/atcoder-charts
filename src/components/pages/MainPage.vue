@@ -40,7 +40,7 @@ export default class MainPage extends Vue {
 
   username: string | null = null
 
-  usernameInputMarginTop: string = 'calc(50vh - 200px)'
+  usernameInputMarginTop: string = 'calc(50vh - 140px)'
 
   usernameInputWidth: string = '900px'
 
