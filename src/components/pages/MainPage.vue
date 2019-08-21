@@ -40,7 +40,7 @@ export default class MainPage extends Vue {
 
   username: string | null = null
 
-  usernameInputMarginTop: string = 'calc(50vh - 200px)'
+  usernameInputMarginTop: string = 'calc(50vh - 140px)'
 
   usernameInputWidth: string = '900px'
 
@@ -77,5 +77,8 @@ export default class MainPage extends Vue {
 </script>
 
 <style scoped lang="scss">
+.main-page {
+  padding-bottom: 30px;
+}
 
 </style>
