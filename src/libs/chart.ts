@@ -7,19 +7,34 @@ export const createChartDataAndOptions = (username: string, contestHistory: Cont
 
   const ratings = ratedList.map(rated => rated.newRating)
 
+  const performances = ratedList.map(rated => rated.performance)
+
   const labels = ratedList.map(rated => `${rated.contestName}`)
 
   const data: ChartData = {
     labels,
     datasets: [
       {
-        label: username,
+        label: 'Rating',
         type: 'line',
         data: ratings,
         fill: false,
         backgroundColor: '#00a9a5',
         borderColor: '#00a9a5',
         borderWidth: 2,
+      },
+      {
+        label: 'Performance',
+        type: 'line',
+        data: performances,
+        fill: false,
+        backgroundColor: '#00a9a5CC',
+        borderColor: '#00a9a5CC',
+        borderWidth: 1,
+        borderDash: [10, 5],
+        pointStyle: 'rectRot',
+        pointRadius: 3,
+        pointBackgroundColor: '#fff'
       },
     ],
   }
@@ -79,6 +94,9 @@ export const createChartDataAndOptions = (username: string, contestHistory: Cont
       callbacks: {
         afterLabel: tooltipItem => labels[tooltipItem.index!],
       },
+    },
+    hover: {
+      mode: 'point',
     },
     scales: {
       xAxes: [
