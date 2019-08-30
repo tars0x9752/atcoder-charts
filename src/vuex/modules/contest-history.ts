@@ -8,8 +8,11 @@ import {
   RawContestHistory,
 } from '@/types/contest-history'
 
+const netlifyFunctions = 'https://havefn-atcoder-api.netlify.com/.netlify/functions/'
+const heroku = 'https://atcoder-relay-api.herokuapp.com'
+
 const httpClient = axios.create({
-  baseURL: 'https://havefn-atcoder-api.netlify.com/.netlify/functions/',
+  baseURL: heroku,
 })
 
 const formatRawData = (raw: RawContestResult) => {
