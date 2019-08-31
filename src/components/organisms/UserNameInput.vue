@@ -20,13 +20,16 @@
         )
       .base-border
         .accent-border
-  .label-container
-    transition(name="label")
-      p.label(v-if="isFocused") {{ placeholder }}
+  .button-container
+    transition(name="button")
+      .button(
+        v-if="isFocused"
+        @click="onEnter"
+        ) fetch
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
+import { Component, Prop, Vue, Emit, Watch } from 'vue-property-decorator'
 
 const MAX_WIDTH = '100%'
 const MIN_WIDTH = '0'
@@ -188,28 +191,44 @@ export default class UserNameInput extends Vue {
   transition: width 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
-.label {
-  margin: 10px 30px;
-  padding: 5px;
-  width: 100px;
+.button {
+  margin: 15px 0 0;
+  padding: 0 5px;
+  width: 150px;
+  height: 35px;
+  line-height: 35px;
   color: #fff;
   background: var(--deep-teal);
   text-align: center;
   font-size: 16px;
+  border-radius: 20px;
+  user-select: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-.label-container {
+.button:hover {
+  background: var(--teal);
+}
+
+.button:active {
+  background: var(--black);
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
   height: 50px;
   overflow: hidden;
 }
 
-.label-enter-active,
-.label-leave-active {
+.button-enter-active,
+.button-leave-active {
   transition: all 0.8s ease;
 }
-.label-enter,
-.label-leave-to {
+.button-enter,
+.button-leave-to {
   opacity: 0;
-  margin-left: 50px;
+  margin-right: 50px;
 }
 </style>
