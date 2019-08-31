@@ -14,10 +14,6 @@ export default class App extends Vue {
   errorCaptured(error: Error) {
     console.log(error)
   }
-
-  mounted() {
-    document.title = 'AtCoder Charts'
-  }
 }
 </script>
 
