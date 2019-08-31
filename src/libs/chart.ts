@@ -19,6 +19,7 @@ export const createChartDataAndOptions = (username: string, contestHistory: Cont
         type: 'line',
         data: ratings,
         fill: false,
+        lineTension: 0,
         backgroundColor: '#00a9a5',
         borderColor: '#00a9a5',
         borderWidth: 2,
@@ -28,13 +29,14 @@ export const createChartDataAndOptions = (username: string, contestHistory: Cont
         type: 'line',
         data: performances,
         fill: false,
+        lineTension: 0.3,
         backgroundColor: '#00a9a5CC',
         borderColor: '#00a9a5CC',
         borderWidth: 1,
         borderDash: [10, 5],
         pointStyle: 'rectRot',
         pointRadius: 3,
-        pointBackgroundColor: '#fff'
+        pointBackgroundColor: '#fff',
       },
     ],
   }
