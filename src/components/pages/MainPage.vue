@@ -6,6 +6,7 @@
   user-name-input(
     :margin-top="usernameInputMarginTop"
     :input-width="usernameInputWidth"
+    :is-fetching="isFetching"
     @input="onUsernameInput"
     )
   chart-pane(
@@ -36,6 +37,8 @@ import { createChartDataAndOptions } from '@/libs/chart'
 export default class MainPage extends Vue {
   isChartPaneVisible = false
 
+  isFetching = false
+
   title = 'AtCoder Charts'
 
   username: string | null = null
@@ -53,11 +56,15 @@ export default class MainPage extends Vue {
 
     if (!username) return
 
+    this.isFetching = true
+
     await submissionModule.fetchSubmissions(username)
 
     await contestHistoryModule.fetchContestHistory(username)
 
     const contestHistory = contestHistoryModule.getContestHistory
+
+    this.isFetching = false
 
     if (contestHistory === null) return
 
