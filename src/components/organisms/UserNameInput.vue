@@ -25,7 +25,10 @@
       .button(
         v-if="isFocused"
         @click="onEnter"
-        ) fetch
+        )
+        transition(name="fade")
+          p.button-text(v-if="!isFetching") Fetch
+          .stripe-loading(v-else)
 </template>
 
 <script lang="ts">
@@ -55,6 +58,9 @@ export default class UserNameInput extends Vue {
 
   @Prop({ default: '800px' })
   inputWidth!: string
+
+  @Prop({ default: false })
+  isFetching!: boolean
 
   focus() {
     const { input } = this.$refs
@@ -100,8 +106,16 @@ export default class UserNameInput extends Vue {
   }
 
   @Emit('input')
+  emitInputText(text: string) {
+    return text
+  }
+
   onEnter() {
-    return this.inputText
+    const { inputText, isFetching } = this
+
+    if (isFetching) return
+
+    this.emitInputText(inputText)
   }
 }
 </script>
@@ -191,9 +205,16 @@ export default class UserNameInput extends Vue {
   transition: width 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  height: 50px;
+  overflow: hidden;
+}
+
 .button {
+  position: relative;
   margin: 15px 0 0;
-  padding: 0 5px;
   width: 150px;
   height: 35px;
   line-height: 35px;
@@ -215,13 +236,6 @@ export default class UserNameInput extends Vue {
   background: var(--black);
 }
 
-.button-container {
-  display: flex;
-  justify-content: flex-end;
-  height: 50px;
-  overflow: hidden;
-}
-
 .button-enter-active,
 .button-leave-active {
   transition: all 0.8s ease;
@@ -230,5 +244,47 @@ export default class UserNameInput extends Vue {
 .button-leave-to {
   opacity: 0;
   margin-right: 50px;
+}
+
+@keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 35px 0;
+  }
+}
+
+.stripe-loading {
+  position: absolute;
+  top: 0;
+  width: 150px;
+  height: 35px;
+  line-height: 35px;
+  background-size: 35px;
+  background-image: linear-gradient(
+    45deg,
+    var(--teal) 25%,
+    #fff 25%,
+    #fff 50%,
+    var(--teal) 50%,
+    var(--teal) 75%,
+    #fff 75%,
+    #fff
+  );
+  border-radius: 20px;
+  user-select: none;
+  animation: animate-stripes 0.7s linear infinite;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.2s ease;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
