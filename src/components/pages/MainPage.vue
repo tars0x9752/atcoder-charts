@@ -51,6 +51,8 @@ export default class MainPage extends Vue {
   async onUsernameInput(username: string) {
     this.username = username
 
+    if (!username) return
+
     await submissionModule.fetchSubmissions(username)
 
     await contestHistoryModule.fetchContestHistory(username)
@@ -80,5 +82,4 @@ export default class MainPage extends Vue {
 .main-page {
   padding-bottom: 30px;
 }
-
 </style>
