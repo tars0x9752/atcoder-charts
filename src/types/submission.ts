@@ -1,3 +1,5 @@
+/* eslint camelcase: 0 */
+
 export interface Submission {
   id: number
   epoch_second: number

@@ -2,7 +2,7 @@ import 'chartjs-plugin-annotation'
 import { ChartData, ChartOptions } from 'chart.js'
 import { ContestHistory } from '@/types/contest-history'
 
-export const createChartDataAndOptions = (username: string, contestHistory: ContestHistory) => {
+export const createRatingChart = (contestHistory: ContestHistory) => {
   const ratedList = contestHistory.filter(contestResult => contestResult.isRated)
 
   const ratings = ratedList.map(rated => rated.newRating)
@@ -118,7 +118,7 @@ export const createChartDataAndOptions = (username: string, contestHistory: Cont
   } as ChartOptions
 
   return {
-    data,
-    options,
+    ratingChartData: data,
+    ratingChartOptions: options,
   }
 }
