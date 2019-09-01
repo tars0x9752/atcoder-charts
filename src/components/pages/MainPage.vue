@@ -18,7 +18,7 @@
         :type="`line`"
         )
     .submission-chart#submission-chart
-      v-heading(:text="`Past 7 days daily AC counts (not unique AC)`")
+      v-heading(:text="`Daily Rated Point Sum for The Past 7 days`")
       chart-pane(
         :data="submissionChartData"
         :options="submissionChartOptions"

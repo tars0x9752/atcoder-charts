@@ -1,6 +1,7 @@
 import 'chartjs-plugin-annotation'
 import { ChartData, ChartOptions } from 'chart.js'
 import { Submission, Result } from '@/types/submission'
+import { contestInformationModule } from '@/vuex/modules/contest-information'
 
 const toYYYYMMDD = (date: Date) => {
   const mm = `0${date.getMonth() + 1}`.slice(-2)
@@ -24,34 +25,66 @@ const getLastWeekLabels = () => {
 
 const epochSecondToYYYYMMDD = (epochSecond: number) => toYYYYMMDD(new Date(epochSecond * 1000))
 
+const contestInformations = contestInformationModule.getContestInformations || []
+
+const checkRated = (id: string) => {
+  const contest = contestInformations.find(v => v.id === id)
+
+  if (!contest) return false
+
+  return contest.rate_change !== '-'
+}
+
 export const createSubmissionChart = (submissions: Submission[]) => {
   const lastWeekLabels = getLastWeekLabels()
 
   const lastWeekLabelsSet = new Set(lastWeekLabels)
 
-  const lastWeekSubmissions = submissions.filter((submission, i) => {
+  const dailyUniqSet = new Set()
+
+  const sorted = submissions.sort((a, b) => a.epoch_second - b.epoch_second)
+
+  const lastWeekSubmissions = sorted.filter((submission, i) => {
     const yyyymmdd = epochSecondToYYYYMMDD(submission.epoch_second)
 
-    return lastWeekLabelsSet.has(yyyymmdd) && submission.result === Result.AC
+    const isCountable = lastWeekLabelsSet.has(yyyymmdd) && submission.result === Result.AC
+
+    const isRated = checkRated(submission.contest_id)
+
+    if (i > 0) {
+      const lastYYYYMMDD = epochSecondToYYYYMMDD(sorted[i - 1].epoch_second)
+
+      if (lastYYYYMMDD !== yyyymmdd) {
+        dailyUniqSet.clear()
+      }
+    }
+
+    if (isCountable && !dailyUniqSet.has(submission.problem_id) && isRated) {
+      dailyUniqSet.add(submission.problem_id)
+
+      return true
+    }
+
+    return false
   })
 
-  const acCounts = [0, 0, 0, 0, 0, 0, 0]
+  const ratedPoints = [0, 0, 0, 0, 0, 0, 0]
 
   lastWeekSubmissions.forEach((submission, i) => {
     const yyyymmdd = epochSecondToYYYYMMDD(submission.epoch_second)
 
     const idx = lastWeekLabels.indexOf(yyyymmdd)
 
-    acCounts[idx] += 1
+    ratedPoints[idx] += submission.point
   })
 
   const submissionChartData: ChartData = {
     labels: lastWeekLabels,
     datasets: [
       {
-        label: 'Total AC Counts',
+        label: 'Daily Unique Rated Point Sum',
         type: 'bar',
-        data: acCounts,
+        data: ratedPoints,
         backgroundColor: '#00a9a5',
       },
     ],
