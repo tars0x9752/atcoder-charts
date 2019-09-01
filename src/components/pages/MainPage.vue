@@ -18,7 +18,7 @@
         :type="`line`"
         )
     .submission-chart#submission-chart
-      v-heading(:text="`Past 7 days daily AC counts (not unique AC)`")
+      v-heading(:text="`Daily Rated Point Sum for The Past 7 days`")
       chart-pane(
         :data="submissionChartData"
         :options="submissionChartOptions"
@@ -31,6 +31,7 @@ import { ChartData, ChartOptions } from 'chart.js'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { submissionModule } from '@/vuex/modules/submission'
 import { contestHistoryModule } from '@/vuex/modules/contest-history'
+import { contestInformationModule } from '@/vuex/modules/contest-information'
 import UserNameInput from '@/components/organisms/UserNameInput.vue'
 import MainPageHeader from '@/components/organisms/MainPageHeader.vue'
 import ChartPane from '@/components/organisms/ChartPane.vue'
@@ -76,6 +77,8 @@ export default class MainPage extends Vue {
     if (!username) return
 
     this.isFetching = true
+
+    await contestInformationModule.fetchContestInformation()
 
     await prepareRatingChart(username)
 
