@@ -2,6 +2,7 @@ import 'chartjs-plugin-annotation'
 import { ChartData, ChartOptions } from 'chart.js'
 import { Submission, Result } from '@/types/submission'
 import { contestInformationModule } from '@/vuex/modules/contest-information'
+import { ContestInformation } from '@/types/contest-information'
 
 const toYYYYMMDD = (date: Date) => {
   const mm = `0${date.getMonth() + 1}`.slice(-2)
@@ -25,9 +26,7 @@ const getLastWeekLabels = () => {
 
 const epochSecondToYYYYMMDD = (epochSecond: number) => toYYYYMMDD(new Date(epochSecond * 1000))
 
-const contestInformations = contestInformationModule.getContestInformations || []
-
-const checkRated = (id: string) => {
+const checkRated = (id: string, contestInformations: ContestInformation[]) => {
   const contest = contestInformations.find(v => v.id === id)
 
   if (!contest) return false
@@ -35,7 +34,11 @@ const checkRated = (id: string) => {
   return contest.rate_change !== '-'
 }
 
-export const createSubmissionChart = (submissions: Submission[]) => {
+export const createSubmissionChart = async (submissions: Submission[]) => {
+  await contestInformationModule.fetchContestInformation()
+
+  const contestInformations = contestInformationModule.getContestInformations || []
+
   const lastWeekLabels = getLastWeekLabels()
 
   const lastWeekLabelsSet = new Set(lastWeekLabels)
@@ -49,7 +52,7 @@ export const createSubmissionChart = (submissions: Submission[]) => {
 
     const isCountable = lastWeekLabelsSet.has(yyyymmdd) && submission.result === Result.AC
 
-    const isRated = checkRated(submission.contest_id)
+    const isRated = checkRated(submission.contest_id, contestInformations)
 
     if (i > 0) {
       const lastYYYYMMDD = epochSecondToYYYYMMDD(sorted[i - 1].epoch_second)

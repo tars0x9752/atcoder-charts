@@ -78,8 +78,6 @@ export default class MainPage extends Vue {
 
     this.isFetching = true
 
-    await contestInformationModule.fetchContestInformation()
-
     await prepareRatingChart(username)
 
     await preapareSubmissionChart(username)
@@ -110,7 +108,7 @@ export default class MainPage extends Vue {
 
     const submissions = submissionModule.getSubmissions
 
-    const { submissionChartData, submissionChartOptions } = createSubmissionChart(submissions || [])
+    const { submissionChartData, submissionChartOptions } = await createSubmissionChart(submissions || [])
 
     this.submissionChartData = submissionChartData
 
