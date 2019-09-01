@@ -1,6 +1,6 @@
 # atcoder-charts
 
-[atcoder-charts](https://atcoder-charts.netlify.com/)
+[本番](https://atcoder-charts.netlify.com/)
 
 ## 関連Repository
 
