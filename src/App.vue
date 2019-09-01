@@ -42,5 +42,6 @@ body {
   font-family: 'Poppins', 'Arial', 'Hiragino Sans', 'ヒラギノ角ゴシック', 'メイリオ', Meiryo,
     sans-serif;
   overflow-y: scroll;
+  scroll-behavior: smooth;
 }
 </style>

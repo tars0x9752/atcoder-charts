@@ -11,7 +11,7 @@ export default class VHeading extends Vue {
   @Prop({ default: '' })
   text!: string
 
-  @Prop({ default: '25px' })
+  @Prop({ default: '40px' })
   height!: string
 
   get styles() {
@@ -24,18 +24,21 @@ export default class VHeading extends Vue {
 
 <style scoped lang="scss">
 .v-heading {
-  width: 100%;
+  --height: initial;
+  margin: 20px 0;
 }
 
 .text {
-  --height: initial;
-  width: 100%;
+  display: inline-block;
+  padding: 0 20px;
   height: var(--height);
-  margin: 0;
-  color: var(--black);
+  line-height: var(--height);
+  background: var(--black);
+  border-left: 7px solid var(--deep-pink);
+  color: #fff;
   font-size: 20px;
   text-align: center;
   font-family: 'Poppins', sans-serif;
-  font-weight: bold;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 </style>

@@ -1,6 +1,6 @@
 <template lang="pug">
 .main-page
-  main-page-header(
+  main-page-header#top(
     :title="title"
     )
   user-name-input(
@@ -9,11 +9,21 @@
     :is-fetching="isFetching"
     @input="onUsernameInput"
     )
-  chart-pane(
-    v-if="isChartPaneVisible"
-    :data="data"
-    :options="options"
-    )
+  .charts(v-if="isChartPaneVisible")
+    .rating-chart#rating-chart
+      v-heading(:text="`Rating and Performance History`")
+      chart-pane(
+        :data="ratingChartData"
+        :options="ratingChartOptions"
+        :type="`line`"
+        )
+    .submission-chart#submission-chart
+      v-heading(:text="`Past 7 days daily AC counts (not unique AC)`")
+      chart-pane(
+        :data="submissionChartData"
+        :options="submissionChartOptions"
+        :type="`bar`"
+        )
 </template>
 
 <script lang="ts">
@@ -24,14 +34,17 @@ import { contestHistoryModule } from '@/vuex/modules/contest-history'
 import UserNameInput from '@/components/organisms/UserNameInput.vue'
 import MainPageHeader from '@/components/organisms/MainPageHeader.vue'
 import ChartPane from '@/components/organisms/ChartPane.vue'
+import VHeading from '@/components/molecules/VHeading.vue'
 import { ContestResult, ContestHistory } from '@/types/contest-history'
-import { createChartDataAndOptions } from '@/libs/chart'
+import { createRatingChart } from '@/libs/rating-chart'
+import { createSubmissionChart } from '@/libs/submission-chart'
 
 @Component({
   components: {
     UserNameInput,
     ChartPane,
     MainPageHeader,
+    VHeading,
   },
 })
 export default class MainPage extends Vue {
@@ -47,40 +60,60 @@ export default class MainPage extends Vue {
 
   usernameInputWidth: string = '900px'
 
-  data: ChartData = {}
+  ratingChartData: ChartData = {}
 
-  options: ChartOptions = {}
+  ratingChartOptions: ChartOptions = {}
+
+  submissionChartData: ChartData = {}
+
+  submissionChartOptions: ChartOptions = {}
 
   async onUsernameInput(username: string) {
+    const { prepareRatingChart, preapareSubmissionChart } = this
+
     this.username = username
 
     if (!username) return
 
     this.isFetching = true
 
-    await submissionModule.fetchSubmissions(username)
+    await prepareRatingChart(username)
 
-    await contestHistoryModule.fetchContestHistory(username)
-
-    const contestHistory = contestHistoryModule.getContestHistory
+    await preapareSubmissionChart(username)
 
     this.isFetching = false
 
-    if (contestHistory === null) return
-
-    if (contestHistory.length <= 0) return
-
-    const { data, options } = createChartDataAndOptions(username, contestHistory)
-
-    this.data = data
-
-    this.options = options
-
-    this.usernameInputMarginTop = '70px'
+    this.usernameInputMarginTop = '40px'
 
     this.usernameInputWidth = '750px'
 
     this.isChartPaneVisible = true
+  }
+
+  async prepareRatingChart(username: string) {
+    await contestHistoryModule.fetchContestHistory(username)
+
+    const contestHistory = contestHistoryModule.getContestHistory
+
+    const { ratingChartData, ratingChartOptions } = createRatingChart(contestHistory || [])
+
+    this.ratingChartData = ratingChartData
+
+    this.ratingChartOptions = ratingChartOptions
+  }
+
+  async preapareSubmissionChart(username: string) {
+    await submissionModule.fetchSubmissions(username)
+
+    const submissions = submissionModule.getSubmissions
+
+    const { submissionChartData, submissionChartOptions } = createSubmissionChart(submissions || [])
+
+    this.submissionChartData = submissionChartData
+
+    this.submissionChartOptions = submissionChartOptions
+
+    return true
   }
 }
 </script>
@@ -88,5 +121,15 @@ export default class MainPage extends Vue {
 <style scoped lang="scss">
 .main-page {
   padding-bottom: 30px;
+}
+
+.rating-chart {
+  width: 1000px;
+  margin: 100px auto 0;
+}
+
+.submission-chart {
+  width: 1000px;
+  margin: 150px auto 0;
 }
 </style>

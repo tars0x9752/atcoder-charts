@@ -3,6 +3,7 @@
   v-chart(
     :data="data"
     :options="options"
+    :type="type"
     )
 </template>
 
@@ -23,6 +24,9 @@ export default class ChartPane extends Vue {
   @Prop()
   options?: ChartOptions
 
+  @Prop()
+  type?: string
+
   get styles() {
     return {}
   }
@@ -37,7 +41,7 @@ export default class ChartPane extends Vue {
   --box-shadow2: 0 14px 28px var(--shadow-color), 0 10px 10px var(--shadow-color);
   width: 1000px;
   height: 500px;
-  margin: 50px auto 0;
+  margin: 0 auto;
   background: var(--white);
   border-radius: 5px;
   transition: all 0.5s ease;

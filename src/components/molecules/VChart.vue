@@ -17,6 +17,9 @@ export default class VChart extends Vue {
   @Prop()
   options?: ChartOptions
 
+  @Prop({ default: 'line' })
+  type?: string
+
   get styles() {
     return {}
   }
@@ -44,13 +47,11 @@ export default class VChart extends Vue {
   }
 
   mounted() {
-    const { data, options } = this
+    const { data, options, type } = this
 
     const { canvas } = this.$refs
 
     if (!(canvas instanceof HTMLCanvasElement)) return
-
-    const type = 'line'
 
     this.chart = new Chart(canvas, { type, data, options })
   }
