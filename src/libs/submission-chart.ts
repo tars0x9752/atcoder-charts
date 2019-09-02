@@ -43,29 +43,28 @@ export const createSubmissionChart = async (submissions: Submission[]) => {
 
   const lastWeekLabelsSet = new Set(lastWeekLabels)
 
-  const dailyUniqSet = new Set()
+  const uniqProblemSet = new Set()
 
   const sorted = submissions.sort((a, b) => a.epoch_second - b.epoch_second)
 
   const lastWeekSubmissions = sorted.filter((submission, i) => {
     const yyyymmdd = epochSecondToYYYYMMDD(submission.epoch_second)
 
-    const isCountable = lastWeekLabelsSet.has(yyyymmdd) && submission.result === Result.AC
+    const isAC = submission.result === Result.AC
+
+    const isLastWeek = lastWeekLabelsSet.has(yyyymmdd)
 
     const isRated = checkRated(submission.contest_id, contestInformations)
 
-    if (i > 0) {
-      const lastYYYYMMDD = epochSecondToYYYYMMDD(sorted[i - 1].epoch_second)
+    const isUniq = !uniqProblemSet.has(submission.problem_id)
 
-      if (lastYYYYMMDD !== yyyymmdd) {
-        dailyUniqSet.clear()
+    if (isAC && isRated) {
+      if (isLastWeek && isUniq) {
+        uniqProblemSet.add(submission.problem_id)
+        return true
       }
-    }
 
-    if (isCountable && !dailyUniqSet.has(submission.problem_id) && isRated) {
-      dailyUniqSet.add(submission.problem_id)
-
-      return true
+      uniqProblemSet.add(submission.problem_id)
     }
 
     return false
