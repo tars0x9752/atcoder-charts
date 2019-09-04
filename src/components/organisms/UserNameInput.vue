@@ -41,7 +41,7 @@ const MIN_OPACITY = '0'
 
 @Component
 export default class UserNameInput extends Vue {
-  maxlength = 30
+  maxlength = 16
 
   placeholder = 'Username'
 
@@ -52,6 +52,8 @@ export default class UserNameInput extends Vue {
   inputText = ''
 
   isFocused = false
+
+  isFetchDisabled = false
 
   @Prop({ default: '80px' })
   marginTop!: string
@@ -71,11 +73,16 @@ export default class UserNameInput extends Vue {
   }
 
   get styles() {
+    const { isFetchDisabled, opacity, borderWidth, marginTop, inputWidth } = this
+
     return {
-      '--opacity': this.opacity,
-      '--border-width': this.borderWidth,
-      '--margin-top': this.marginTop,
-      '--input-width': this.inputWidth,
+      '--opacity': opacity,
+      '--border-width': borderWidth,
+      '--margin-top': marginTop,
+      '--input-width': inputWidth,
+      '--cursor': isFetchDisabled ? 'auto' : 'pointer',
+      '--button-opacity': isFetchDisabled ? 0.3 : 1,
+      '--button-pointer-events': isFetchDisabled ? 'none' : 'auto',
     }
   }
 
@@ -111,11 +118,18 @@ export default class UserNameInput extends Vue {
   }
 
   onEnter() {
-    const { inputText, isFetching } = this
+    const { inputText, isFetching, isFetchDisabled } = this
 
-    if (isFetching) return
+    if (isFetching || isFetchDisabled) return
 
     this.emitInputText(inputText)
+  }
+
+  @Watch('inputText', { immediate: true })
+  watchInputText(newText: string) {
+    const matched = newText.match(/^\w{3,16}$/g)
+
+    this.isFetchDisabled = matched === null
   }
 }
 </script>
@@ -127,6 +141,9 @@ export default class UserNameInput extends Vue {
   --margin-top: initial;
   --input-width: initial;
   --input-height: 50px;
+  --cursor: initial;
+  --button-opacity: initial;
+  --button-pointer-events: initial;
   width: var(--input-width);
   margin: var(--margin-top) auto 0;
   overflow: hidden;
@@ -225,7 +242,9 @@ export default class UserNameInput extends Vue {
   border-radius: 20px;
   user-select: none;
   transition: all 0.3s ease;
-  cursor: pointer;
+  cursor: var(--cursor, pointer);
+  opacity: var(--button-opacity);
+  pointer-events: var(--button-pointer-events, auto);
 }
 
 .button:hover {
