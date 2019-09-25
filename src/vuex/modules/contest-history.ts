@@ -12,7 +12,7 @@ const netlifyFunctions = 'https://havefn-atcoder-api.netlify.com/.netlify/functi
 const heroku = 'https://atcoder-relay-api.herokuapp.com'
 
 const httpClient = axios.create({
-  baseURL: heroku,
+  baseURL: netlifyFunctions,
 })
 
 const formatRawData = (raw: RawContestResult) => {
