@@ -17,28 +17,18 @@
         :options="ratingChartOptions"
         :type="`line`"
         )
-    .submission-chart#submission-chart
-      v-heading(:text="`Daily Rated Point Sum for The Past 7 days`")
-      chart-pane(
-        :data="submissionChartData"
-        :options="submissionChartOptions"
-        :type="`bar`"
-        )
 </template>
 
 <script lang="ts">
 import { ChartData, ChartOptions } from 'chart.js'
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { submissionModule } from '@/vuex/modules/submission'
 import { contestHistoryModule } from '@/vuex/modules/contest-history'
-import { contestInformationModule } from '@/vuex/modules/contest-information'
 import UserNameInput from '@/components/organisms/UserNameInput.vue'
 import MainPageHeader from '@/components/organisms/MainPageHeader.vue'
 import ChartPane from '@/components/organisms/ChartPane.vue'
 import VHeading from '@/components/molecules/VHeading.vue'
-import { ContestResult, ContestHistory } from '@/types/contest-history'
+import { ContestHistory } from '@/types/contest-history'
 import { createRatingChart } from '@/libs/rating-chart'
-import { createSubmissionChart } from '@/libs/submission-chart'
 
 @Component({
   components: {
@@ -65,12 +55,8 @@ export default class MainPage extends Vue {
 
   ratingChartOptions: ChartOptions = {}
 
-  submissionChartData: ChartData = {}
-
-  submissionChartOptions: ChartOptions = {}
-
   async onUsernameInput(username: string) {
-    const { prepareRatingChart, preapareSubmissionChart } = this
+    const { prepareRatingChart } = this
 
     this.username = username
 
@@ -79,8 +65,6 @@ export default class MainPage extends Vue {
     this.isFetching = true
 
     await prepareRatingChart(username)
-
-    await preapareSubmissionChart(username)
 
     this.isFetching = false
 
@@ -102,20 +86,6 @@ export default class MainPage extends Vue {
 
     this.ratingChartOptions = ratingChartOptions
   }
-
-  async preapareSubmissionChart(username: string) {
-    await submissionModule.fetchSubmissions(username)
-
-    const submissions = submissionModule.getSubmissions
-
-    const { submissionChartData, submissionChartOptions } = await createSubmissionChart(submissions || [])
-
-    this.submissionChartData = submissionChartData
-
-    this.submissionChartOptions = submissionChartOptions
-
-    return true
-  }
 }
 </script>
 
@@ -126,11 +96,6 @@ export default class MainPage extends Vue {
 
 .rating-chart {
   width: 1000px;
-  margin: 100px auto 0;
-}
-
-.submission-chart {
-  width: 1000px;
-  margin: 150px auto 0;
+  margin: 100px auto;
 }
 </style>
