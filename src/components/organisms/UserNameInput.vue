@@ -239,7 +239,7 @@ export default class UserNameInput extends Vue {
   background: var(--deep-teal);
   text-align: center;
   font-size: 16px;
-  border-radius: 20px;
+  border-radius: 2px;
   user-select: none;
   transition: all 0.3s ease;
   cursor: var(--cursor, pointer);
@@ -292,7 +292,7 @@ export default class UserNameInput extends Vue {
     #fff 75%,
     #fff
   );
-  border-radius: 20px;
+  border-radius: 2px;
   user-select: none;
   animation: animate-stripes 0.7s linear infinite;
 }
