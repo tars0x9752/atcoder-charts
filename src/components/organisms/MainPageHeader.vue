@@ -18,9 +18,9 @@ import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
 
 @Component
 export default class MainPageHeader extends Vue {
-  github = 'https://github.com/havveFn/atcoder-charts'
+  github = 'https://github.com/huffhuffman/atcoder-charts'
 
-  twitter = 'https://twitter.com/havveFn'
+  twitter = 'https://twitter.com/huffhuffman2020'
 
   @Prop({ default: 'AtCoder Charts' })
   title!: string
