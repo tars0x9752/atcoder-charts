@@ -10,7 +10,7 @@
   "dependencies": {
     "@types/chart.js": "^2.7.56",
     "axios": "^0.19.0",
-    "chart.js": "^2.8.0",
+    "chart.js": "^2.9.4",
     "chartjs-plugin-annotation": "^0.5.7",
     "core-js": "^2.6.5",
     "pug": "^2.0.4",
